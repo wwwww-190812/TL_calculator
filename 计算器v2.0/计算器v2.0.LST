@@ -1,0 +1,125 @@
+C51 COMPILER V8.02   计算芲V2_0                                                            10/21/2018 14:57:04 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE 计算芲V2_0
+OBJECT MODULE PLACED IN 计算器v2.0.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE 计算器v2.0.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /**************************
+   2           单片机计算器
+   3          制作者：王天亮
+   4          制作时间：v1.0:2018年10月5日
+   5                            v2.0:2018年10月19日
+   6                            v2.1:2018年10月20日
+   7          **************************/
+   8          #include  <reg51.h>
+   9          #include <math.h>
+  10          #include <intrins.h>
+  11          #include "LCD1602.h"
+  12          #include "LCD1602define.h"
+  13          #include "KeyScan.h"
+  14          #include "data.h"
+  15          #define uchar unsigned char
+  16          #define uint  unsigned int              延时
+*** WARNING C317 IN LINE 16 OF 计算器v2.0.c: attempt to redefine macro 'uint'
+  17          
+  18          void delay50us(unsigned int us);/*延时50us      */
+  19          void delayms(unsigned int ms);  /*延时 1ms      */
+  20          unsigned char keyscan();                /*按键扫描      */
+  21          void init();                                    /*初始化        */
+  22          void display();
+  23          void xs(long w);
+  24          
+  25          
+  26          
+  27          /************主程序***************************/
+  28          main()
+  29          {
+  30   1              LCD_initial();   //LCD初始化
+  31   1              LCD_ClrAll();
+  32   1              cdp("  TL calculator","     V2.1");
+  33   1              delayms(1000);
+  34   1              LCD_ClrAll();//LCD清屏
+  35   1              init();     
+  36   1              while(1)
+  37   1              {
+  38   2                      keyscan();
+  39   2                      while(keyz)
+  40   2                      {
+  41   3                              keyschu();
+  42   3                              display();
+  43   3                              keyz=0;
+  44   3                      }
+  45   2              }
+  46   1      }
+  47          void init()
+  48          {
+  49   1              LCD_initial();   //LCD初始化
+  50   1              LCD_ClrAll();
+  51   1              math=100;
+  52   1              shu=0;
+  53   1              flag=1;
+  54   1              xmath=1;
+C51 COMPILER V8.02   计算芲V2_0                                                            10/21/2018 14:57:04 PAGE 2   
+
+  55   1              num0=nume;
+  56   1              nume=0;
+  57   1              button=0;
+  58   1      }
+  59          void display()
+  60          {
+  61   1              if(1==flag||3==flag)
+  62   1              {
+  63   2                      if(5==math)
+  64   2                      {
+  65   3                              zfc(maths[5]);
+  66   3                      }
+  67   2                      else zf(num[shu%10]);
+  68   2              }
+  69   1              if(2==flag)
+  70   1              {
+  71   2                      zfc(maths[xmath]);
+  72   2              }
+  73   1      }
+  74          void xs(long w)
+  75          {
+  76   1              uchar c=1,d=0;
+  77   1              long q=1;
+  78   1              while(c)
+  79   1              {
+  80   2                      if(q*10<=w)
+  81   2                      {
+  82   3                              q=q*10;
+  83   3                      }
+  84   2                      else 
+  85   2                      {
+  86   3                              c=0;
+  87   3                      }
+  88   2              }
+  89   1              c=1;
+  90   1              while(c)
+  91   1                      {
+  92   2                              zf(num[w/q%10]);
+  93   2                              q=q/10;
+  94   2                              if(0==q)
+  95   2                              {
+  96   3                                      c=0;
+  97   3                              }
+  98   2                      }
+  99   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1756    ----
+   CONSTANT SIZE    =     65    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     73      25
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
